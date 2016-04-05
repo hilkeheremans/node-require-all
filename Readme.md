@@ -29,6 +29,15 @@ If your objective is to simply require all .js and .json files in a directory yo
 var libs = require('require-all')(__dirname + '/lib');
 ```
 
+By default, `require-all` will stop loading if an error occurs in one of the files. By providing an optional error handler, you can ignore failed loads and provide a specific error message for that file:
+
+``` js
+var libs = require('require-all')(__dirname + '/lib', function(filepath, error) {
+    console.error('File with path '+filepath+' failed to load:',error);
+});
+// libs => all successfully loaded files
+```
+
 ### Constructed object usage
 
 If your directory contains files that all export constructors, you can require them all and automatically construct the objects using `resolve`:

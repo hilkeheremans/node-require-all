@@ -4,6 +4,9 @@ This file is a manually maintained list of changes for each release. Feel free
 to add your changes here when sending pull requests. Also send corrections if
 you spot any mistakes.
 
+## v2.1.0 (2016-04-05)
+* Add support for optional error handler. If an error is thrown during the require of a file, the error handler will be called with `(file, error)` and loading of other files will continue.
+
 ## v2.0.0 (2015-10-17)
 
 * Add "recursive" argument to control directory recursion #21

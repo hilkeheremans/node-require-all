@@ -4,7 +4,7 @@ var DEFAULT_EXCLUDE_DIR = /^\./;
 var DEFAULT_FILTER = /^([^\.].*)\.js(on)?$/;
 var DEFAULT_RECURSIVE = true;
 
-module.exports = function requireAll(options) {
+module.exports = function requireAll(options, errorHandler) {
   var dirname = typeof options === 'string' ? options : options.dirname;
   var excludeDirs = options.excludeDirs === undefined ? DEFAULT_EXCLUDE_DIR : options.excludeDirs;
   var filter = options.filter === undefined ? DEFAULT_FILTER : options.filter;
@@ -37,8 +37,15 @@ module.exports = function requireAll(options) {
     } else {
       var match = file.match(filter);
       if (!match) return;
-
-      modules[map(match[1], filepath)] = resolve(require(filepath));
+      try {
+        modules[map(match[1], filepath)] = resolve(require(filepath));
+      } catch(e) {
+          if (errorHandler) {
+              errorHandler(filepath, e);
+          } else {
+              throw e;
+          }
+      }
     }
   });
 
